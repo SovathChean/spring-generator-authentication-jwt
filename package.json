@@ -80,6 +80,6 @@
     "pretest": "eslint .",
     "test": "jest"
   },
-  "repository": "https://github.com/SovathChean/spring-authentication-jwt.git",
+  "repository": "https://github.com/SovathChean/spring-generator-authentication-jwt",
   "license": "Apache-2.0"
 }

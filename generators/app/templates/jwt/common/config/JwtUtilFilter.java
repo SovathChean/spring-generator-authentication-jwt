@@ -1,17 +1,19 @@
 package <%= domain_name %>.common.config;
 
-import <%= domain %>.biz.dao.OAuthTokenDAO;
-import <%= domain %>.biz.dto.OAuthTokenFormatDTO;
-import <%= domain %>.biz.service.AuthenticationService;
-import <%= domain_name %>.common.helper.JwtCreateToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import <%= domain_name %>.authentication.biz.dto.OAuthTokenFormatDTO;
+import <%= domain_name %>.authentication.biz.service.AuthenticationService;
+import <%= domain_name %>.common.exception.BusinessException;
+import <%= domain_name %>.common.exception.RaiseException;
+import <%= domain_name %>.common.helper.JwtCreateToken;
+import <%= domain_name %>.common.type.SysHttpResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -48,6 +50,13 @@ public class JwtUtilFilter extends UsernamePasswordAuthenticationFilter {
         authenticationService.storeUnqiueKey(uniqueKey);
 
         new ObjectMapper().writeValue(response.getOutputStream(), responseToken);
+
+    }
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException, ServletException {
+
+        RaiseException.exception(response, SysHttpResultCode.ERROR_401.getCode(), "Username or Password is incorrect.");
     }
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -60,6 +69,4 @@ public class JwtUtilFilter extends UsernamePasswordAuthenticationFilter {
 
         return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
     }
-
-
 }

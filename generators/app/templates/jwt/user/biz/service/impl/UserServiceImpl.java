@@ -1,5 +1,8 @@
 package <%= domain_name %>.user.biz.service.impl;
 
+
+import <%= domain_name %>.common.exception.BusinessException;
+import <%= domain_name %>.common.type.SysHttpResultCode;
 import <%= domain_name %>.user.biz.entity.UserEntity;
 import <%= domain_name %>.user.biz.repository.UserRepository;
 import <%= domain_name %>.user.biz.service.UserService;

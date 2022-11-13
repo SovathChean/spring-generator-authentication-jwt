@@ -8,6 +8,7 @@ import <%= domain_name %>.authentication.biz.service.AuthenticationService;
 import <%= domain_name %>.common.exception.RaiseException;
 import <%= domain_name %>.common.helper.JwtAlgorithm;
 import <%= domain_name %>.common.type.SysHttpResultCode;
+import <%= domain_name %>.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -51,13 +52,14 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                      JWTVerifier verifier = JWT.require(algorithm).build();
                      decodedJWT = verifier.verify(token);
                  } catch (Exception e) {
-                     RaiseException.exception(response, SysHttpResultCode.ERROR_400.getCode(), "Token is invalid or expire");
+                     RaiseException.exception(response, SysHttpResultCode.ERROR_401.getCode(), "Token is invalid or expire");
+                     throw new BusinessException(SysHttpResultCode.ERROR_401.getCode(), "Token is invalid or expire");
                  }
                  //InvalidJwtToken
                  if(decodedJWT == null)
                  {
                      log.info("Jwt is invalid or expire.");
-                     filterChain.doFilter(request, response);
+                     RaiseException.exception(response, SysHttpResultCode.ERROR_401.getCode(), "Token is invalid or expire");
                  }
                  assert decodedJWT != null;
                  String username = decodedJWT.getSubject();

@@ -54,7 +54,7 @@ public class AuthenticationController {
                 .addData(auth)
                 .build();
     }
-    
+
     @RequestMapping(value="api/auth", method = RequestMethod.GET)
     public ResponseMessage<UserEntity> auth()
     {
