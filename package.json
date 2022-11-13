@@ -1,6 +1,6 @@
 {
   "name": "generator-spring-authentication-jwt",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Authentication with jwt token",
   "homepage": "",
   "author": {
@@ -34,8 +34,12 @@
     "npm": ">= 4.0.0"
   },
   "dependencies": {
-    "yeoman-generator": "^3.1.1",
+    "bower": "^1.8.14",
     "chalk": "^2.1.0",
+    "generator-node-clear": "^0.8.0",
+    "gulp": "^3.9.1",
+    "yeoman-generator": "^5.7.0",
+    "yo": "^4.3.0",
     "yosay": "^2.0.2"
   },
   "jest": {
